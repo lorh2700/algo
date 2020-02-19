@@ -13,8 +13,25 @@ public class Main {
 	
 		int num = Integer.valueOf(strText);
 		
+		MyQueue mq = new MyQueue(2000000);
+		
 		for( int i = 0 ; i < num ; i++) {
 			String tmp = br.readLine();
+			if(tmp.contains("push")) {
+				String[] arr = tmp.split(" ");
+				mq.push(Integer.parseInt(arr[1]) );
+			}else if("pop".contains(tmp)) {
+				System.out.println(mq.pop());
+			}else if("front".contains(tmp)) {
+				System.out.println(mq.front());
+			}else if("back".contains(tmp)) {
+				System.out.println(mq.back());
+			}else if("size".contains(tmp)) {
+				System.out.println(mq.size());
+			}else if("empty".contains(tmp)) {
+				System.out.println(mq.empty());
+			}
+			
 		}
 		
 	}
@@ -30,19 +47,26 @@ class MyQueue {
 	public MyQueue(int size) {
 		idxFront = -1;
 		idxRear = -1;
-		queueSize= size;
-		queue = new int[queueSize];
+		this.queueSize= size;
+		queue = new int[this.queueSize];
 	}
 	
 	//push X: 정수 X를 큐에 넣는 연산이다.
 	public void push(int X) {
-		queue[++idxFront] = X;
+		queue[++idxRear] = X;
 	}
 	
 	//pop: 큐에서 가장 앞에 있는 정수를 빼고, 그 수를 출력한다. 만약 큐에 들어있는 정수가 없는 경우에는 -1을 출력한다.
 	public int pop() {
-		if(empty() > 0) {
-			return queue[idxFront--];
+		if(empty() == 0) {
+			int tmp = queue[++idxFront];
+			queue[idxFront] = 0;
+			
+			if(empty() == 1) {
+				idxFront = -1;
+				idxRear = -1;
+			}
+			return tmp;
 		} else {
 			return -1;
 		}
@@ -60,53 +84,17 @@ class MyQueue {
 	
 	//front: 큐의 가장 앞에 있는 정수를 출력한다. 만약 큐에 들어있는 정수가 없는 경우에는 -1을 출력한다.
 	public int front() {
-		return empty() == 1 ? queue[idxFront] : -1;
+		return empty() == 0 ? queue[idxFront+1] : -1;
 	}
 	
 	
 	//back: 큐의 가장 뒤에 있는 정수를 출력한다. 만약 큐에 들어있는 정수가 없는 경우에는 -1을 출력한다
 	public int back() {
-		
-		return -1;
+		if(empty()== 1) {
+			return -1;
+		} else {
+			return queue[idxRear];
+		}
 	}
-	
-	
-	/*
-	 * 15
-	 *  push 1 
-	 *  push 2 
-	 *  front 
-	 *  back 
-	 *  size 
-	 *  empty 
-	 *  pop 
-	 *  pop 
-	 *  pop 
-	 *  size 
-	 *  empty 
-	 *  pop 
-	 *  push 3
-	 * empty 
-	 * front
-	 */
-	
-	
-	/*
-	 * 1 
-	 * 2 
-	 * 2 
-	 * 0 
-	 * 1 
-	 * 2 
-	 * -1 
-	 * 0 
-	 * 1 
-	 * -1
-	 *  0 
-	 *  3
-	 */
-	
-	
-	
 	
 }
