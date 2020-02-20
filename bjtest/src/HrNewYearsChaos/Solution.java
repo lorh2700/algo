@@ -14,23 +14,56 @@ public class Solution {
     static void minimumBribes(int[] q) {
     	
     	int bribe = 0;
+    	int[] tmpArr = new int[q.length];
     	
-    	for(int i = 0; i< q.length-1; i++) {
+    	for(int i = 0; i < q.length; i++) {
+    		tmpArr[i] = i+1;
+    	}
+    	
+    	for(int i = 0; i <q.length; i++) { 
     		
-    		int tmp = q[i+1] - q[i];
-    		
-    		if(0>tmp) {
-    			if(-2 > tmp) {
-    				System.out.println("Too chaotic");
-    				return;
-    			} else {
-    				bribe += Math.abs(tmp);
+    		if(tmpArr[i]!=q[i]) {
+    			int movingIdx = 0;
+    			
+    			for(int j=i; j<tmpArr.length; j++) {
+    				if(tmpArr[j] == q[i] ) {
+    					movingIdx = j;
+    					break;
+    				}
+    			}
+    			
+    			int limitCount = 0;
+    			
+    			while(true) {    				
+    				if(limitCount > 1) {
+    					System.out.println("Too chaotic");
+    					return;
+    				}
+    				
+    				bribe++;
+    				
+    				//swap
+    				int preValue = tmpArr[movingIdx - 1 - limitCount];
+    				tmpArr[movingIdx - 1 - limitCount] = tmpArr[movingIdx - limitCount];
+    				tmpArr[movingIdx - limitCount] = preValue;
+    				
+    				if(tmpArr[i]==q[i]) {
+    					break;
+					}
+    				limitCount++;    				
     			}
     		}
     	}
     	
     	System.out.println(bribe);
     }
+//    2
+//    5
+//    2 1 5 3 4
+//    5
+//    2 5 1 3 4
+    
+   
 
     private static final Scanner scanner = new Scanner(System.in);
 
