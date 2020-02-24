@@ -13,10 +13,32 @@ public class Solution {
     // Complete the checkMagazine function below.
     static void checkMagazine(String[] magazine, String[] note) {
 
+    	HashMap<String, Integer> dictionary = new HashMap<>();
     	
-
+    	for(String tmp : magazine) {
+    		
+    		if(dictionary.containsKey(tmp)) {
+    			dictionary.put(tmp, dictionary.get(tmp)+1);
+    		}else {
+    			dictionary.put(tmp, 1);
+    		}    		
+    	}   
     	
+    	for(String tmp : note) {
+    		
+    		if(dictionary.containsKey(tmp)){
+    			if(dictionary.get(tmp)>1) {
+    				dictionary.put(tmp, dictionary.get(tmp)-1);
+    			}else {
+    				dictionary.remove(tmp);
+    			}
+    		} else {
+    			System.out.println("No");
+    			return;
+    		}
+    	}
     	
+    	System.out.println("Yes");
     }
 
     private static final Scanner scanner = new Scanner(System.in);
