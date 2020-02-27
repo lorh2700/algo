@@ -12,18 +12,16 @@ import java.util.regex.*;
 public class Solution {
 
     // Complete the activityNotifications function below.
-    static int activityNotifications(int[] expenditure, int d) {
+    static int activityNotifications2(int[] expenditure, int d) {
     	
     	
 //    	9 5
 //    	2 3 4 2 3 6 8 4 5
     	//2
     	int result = 0;
-    	
+
     	for(int i = 0; i < expenditure.length-d; i++) {
-    		
     		int tmpMedian = 0;
-    		
     		int[] tmpList = new int[d];
     		
     		for(int j = i; j < i + d; j++){
@@ -31,10 +29,7 @@ public class Solution {
     		}
     		
     		Arrays.sort(tmpList);
-    		
     		tmpMedian = tmpList[d/2];
-    		
-//    		tmpMedian = tmpMedian / d;
     		
     		if(i+ d >= expenditure.length) {
     			break;
@@ -43,11 +38,84 @@ public class Solution {
     				result++;
     			}
     		}
-    		
     	}
     	
 		return result;
     }
+    
+   static int activityNotifications(int[] expenditure, int d) {
+    	
+    	
+//    	9 5
+//    	2 3 4 2 3 6 8 4 5
+    	//2
+    	int result = 0;
+
+    	for(int i = 0; i < expenditure.length-d; i++) {
+    		int tmpMedian = 0;
+    		int[] tmpList = new int[d];
+    		int max = 0;
+    		
+    		for(int j = i; j < i + d; j++){
+    			if(max < expenditure[j]) {
+    				max = expenditure[j];
+    			}
+    			tmpList[j-i] = expenditure[j];
+    		}
+    		
+    		//계수정렬?
+    		
+    		tmpMedian = getMedian(tmpList, d, max);
+    		
+//    		Arrays.sort(tmpList);
+//    		tmpMedian = tmpList[d/2];
+    		
+    		if(i+ d >= expenditure.length) {
+    			break;
+    		} else {
+    			if(expenditure[i+d] >= tmpMedian * 2) {
+    				result++;
+    			}
+    		}
+    	}
+    	
+		return result;
+    }
+   
+   
+//	9 5
+//	2 3 4 2 3 6 8 4 5
+   private static int getMedian(int[] arr, int d, int max) {
+	   
+	   //숫자 세서 저장하는 어레이
+	   int[] countTmp = new int[max+1];
+	   int[] result = new int[arr.length];
+	   
+	   for(int curInt : arr) {
+		   countTmp[curInt] += 1;
+	   }
+	   
+	   //누적합
+	   for(int i = 1 ; i < countTmp.length; i++ ) {
+		   countTmp[i] += countTmp[i-1]; 
+	   }
+	   
+	   //정렬
+	   for(int i = arr.length-1; i >= 0; i--) {
+		   int tmpIdx = 0;		   
+		   //누적합에서 -1
+		   
+		   countTmp[arr[i]] -= 1;
+		   
+		   //값을 입력할 idx
+		   tmpIdx = countTmp[arr[i]];	
+		   
+		   //정렬
+		   result[tmpIdx] = arr[i];				   
+	   }
+	   return result[d/2];
+   }
+   
 
     private static final Scanner scanner = new Scanner(System.in);
 
