@@ -66,6 +66,7 @@ public class Solution {
     		//계수정렬?
     		
     		tmpMedian = getMedian(tmpList, d, max);
+//    		tmpMedian = getMedian(tmpList, d, max);
     		
 //    		Arrays.sort(tmpList);
 //    		tmpMedian = tmpList[d/2];
@@ -89,33 +90,68 @@ public class Solution {
 	   
 	   //숫자 세서 저장하는 어레이
 	   int[] countTmp = new int[max+1];
-	   int[] result = new int[arr.length];
+	   
+	   int result = 0;
 	   
 	   for(int curInt : arr) {
 		   countTmp[curInt] += 1;
 	   }
 	   
-	   //누적합
-	   for(int i = 1 ; i < countTmp.length; i++ ) {
-		   countTmp[i] += countTmp[i-1]; 
+	   for(int i = 1; i < countTmp.length; i++) {
+		   countTmp[i] += countTmp[i-1];
+		   
+		   if(d%2 == 0) {
+			   if(countTmp[i] >= d/2) {
+				   result = i;
+				   break;
+			   } 
+		   }else {
+			   if(countTmp[i] >= d/2 + 1) {
+				   result = i;
+				   break;
+			   }
+		   }
 	   }
 	   
-	   //정렬
-	   for(int i = arr.length-1; i >= 0; i--) {
-		   int tmpIdx = 0;		   
-		   //누적합에서 -1
-		   
-		   countTmp[arr[i]] -= 1;
-		   
-		   //값을 입력할 idx
-		   tmpIdx = countTmp[arr[i]];	
-		   
-		   //정렬
-		   result[tmpIdx] = arr[i];				   
-	   }
-	   return result[d/2];
+	   return result;
    }
    
+	static int CalMedian(int[] tmpArr, int d) {
+		
+		int count = 0;
+		int result = 0;
+		
+		if(d%2 != 0) {
+			for(int i = 0 ; i < tmpArr.length ; i++) {
+				count += tmpArr[i];
+				if(count > d/2) {
+					result = i;
+					break;
+				}
+			}
+
+		}else {
+			int ftmpC = 0;
+			int stmpC = 0;
+
+			for(int i = 0 ; i < tmpArr.length ; i++) {
+				count += tmpArr[i];
+				if(ftmpC == 0 && count >= d/2) {
+					ftmpC = i;
+				}
+
+				if(stmpC == 0 && count >= d/2+1) {
+					stmpC = i;
+					break;
+				}
+
+			}
+			result = (ftmpC+stmpC) /2;
+		}
+
+		return result;
+
+	}
 
     private static final Scanner scanner = new Scanner(System.in);
 
