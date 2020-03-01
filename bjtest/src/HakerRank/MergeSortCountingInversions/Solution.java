@@ -53,13 +53,13 @@ public class Solution {
 
 	private static long mergeAndCount(int[] arr, int startIdx, int endIdx, int middle) {
 		
-		int[] tmpArr = new int[endIdx + 1 ];
+		int[] tmpArr = new int[endIdx - startIdx + 1 ];
 		
 		long count = 0;
 		
 		int left = startIdx;
 		int right = middle + 1;
-		int curIdx = left;
+		int curIdx = 0;
 
 		while(left < middle +1 && right < endIdx + 1 ) {
 			
@@ -79,9 +79,11 @@ public class Solution {
 			tmpArr[curIdx++] = arr[right++];
 		}
 		
-		for(int i = startIdx; i < endIdx+1; i++) {
-			arr[i] = tmpArr[i];
-		}
+		System.arraycopy(tmpArr, 0, arr, startIdx, endIdx - startIdx + 1);
+		
+//		for(int i = startIdx; i < endIdx+1; i++) {
+//			arr[i] = tmpArr[i];
+//		}
 		
 		return count;
 	}
