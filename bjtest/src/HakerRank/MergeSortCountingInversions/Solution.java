@@ -25,61 +25,66 @@ public class Solution {
     static long countInversions(int[] arr) {
     	
     	long result = 0;
-//    	
-//    	int idx = 0;
-//    	
-//    	for(int i = 1; i < arr.length; i++) {
-//    		
-//    		if(arr[i-1] > arr[i]) {
-//    			
-//    			//swap
-//    			int tmp = arr[i-1];
-//    			arr[i-1] = arr[i];
-//    			arr[i] = tmp;
-//    			result++;
-//    			
-//    		}
-//    	}
     	
-    	mergeSort(arr, 0, arr.length);
+    	result = mergeSort(arr, 0, arr.length -1);
     	
     	return result;
 
     }
-    
-    
-    
 
-    private static void mergeSort(int[] arr,int startIdx, int endIdx) {
+    private static long mergeSort(int[] arr,int startIdx, int endIdx) {
     	
-    	int middle = startIdx + endIdx /2;
+    	if(startIdx == endIdx) {
+    		return 0;
+    	}
     	
-		mergeSort(arr, startIdx, middle);
-    	mergeSort(arr, middle, endIdx);
-    	merge(arr, startIdx, endIdx);
+    	int middle = (startIdx + endIdx) /2;
+    	//왼쪽
+		long elapsedCount1 = mergeSort(arr, startIdx, middle);
+		//오른쪽
+    	long elapsedCount2 = mergeSort(arr, middle+1, endIdx);
+    	//합쳐서 정렬
+    	long elapsedCount3 = mergeAndCount(arr, startIdx, endIdx, middle);
+    	
+    	return elapsedCount1 + elapsedCount2 + elapsedCount3;
     	
 	}
 
 
+	private static long mergeAndCount(int[] arr, int startIdx, int endIdx, int middle) {
+		
+		int[] tmpArr = new int[endIdx + 1 ];
+		
+		long count = 0;
+		
+		int left = startIdx;
+		int right = middle + 1;
+		int curIdx = left;
 
+		while(left < middle +1 && right < endIdx + 1 ) {
+			
+			if(arr[left] > arr[right]) {
+				tmpArr[curIdx++] = arr[right++];
+				count += middle - left + 1;
+			} else {
+				tmpArr[curIdx++] = arr[left++];
+			}
+		}
 
-	private static void merge(int[] arr, int startIdx, int endIdx) {
-		
-		int mid = (startIdx + endIdx) / 2;
-		
-		int[] newArr = new int[endIdx - startIdx + 1 ];
-		
-		if(arr[startIdx] > arr[endIdx] ) {
-			int tmp = arr[startIdx];
-			arr[startIdx] = arr[endIdx];
-			arr[endIdx] = tmp;			
+		while(left < middle + 1) {
+			tmpArr[curIdx++] = arr[left++];
 		}
 		
+		while(right < endIdx + 1) {
+			tmpArr[curIdx++] = arr[right++];
+		}
 		
+		for(int i = startIdx; i < endIdx+1; i++) {
+			arr[i] = tmpArr[i];
+		}
+		
+		return count;
 	}
-
-
-
 
 	private static final Scanner scanner = new Scanner(System.in);
 
