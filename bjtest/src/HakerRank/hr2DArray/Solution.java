@@ -1,4 +1,4 @@
-package hr2DArray;
+package HakerRank.hr2DArray;
 
 import java.io.*;
 import java.math.*;

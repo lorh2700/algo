@@ -1,4 +1,4 @@
-package HRArrayManipulation;
+package HakerRank.ArrayManipulation;
 
 import java.io.*;
 import java.math.*;

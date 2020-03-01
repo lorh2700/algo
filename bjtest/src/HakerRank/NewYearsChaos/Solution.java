@@ -1,4 +1,4 @@
-package HrNewYearsChaos;
+package HakerRank.NewYearsChaos;
 
 import java.io.*;
 import java.math.*;

@@ -1,4 +1,4 @@
-package HRMinimumSwap2;
+package HakerRank.MinimumSwap2;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
