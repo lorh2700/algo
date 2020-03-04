@@ -33,20 +33,26 @@ public class Solution {
     				store.put(tmp, store.get(tmp) + 1);
 
     				//count 값을 저장하는데 기존의 값을 지우고 새로운 값으로 업데이트 시켜주기 위하여 기존값을 삭제
-    				if(count.getOrDefault(store.get(tmp) - 1, 0) > 1) {
-    					count.put(store.get(tmp) - 1, count.get(store.get(tmp) - 1) - 1);
-    				} else {
-    					count.remove(store.get(tmp) - 1);
-    				}  
-    				
+    				//있던거 추가 하는건가?     				
+    				if(store.get(tmp) - 1 != 0 ) {
+    					if(count.get(store.get(tmp) - 1) == 1) {
+    						count.remove(store.get(tmp) - 1);
+    					} else {
+    						//1개 이상일경우 갯수에서 -1 
+        					count.put(store.get(tmp) - 1, count.get(store.get(tmp) - 1) - 1);	
+    					}
+    					
+    				} 
 				//해당값을 초기에 추가	
     			} else {
     				store.put(tmp, 1);
     			}
     			
-    			//count 맵에 해당 갯수 추가 
+    			//count 맵에 해당 갯수 추가 {갯수, 해당갯수의 수} 
+    			// 해당 갯수가 있었더거라면
     			if(count.containsKey(store.get(tmp))) {
     				count.put(store.get(tmp), count.get(store.get(tmp)) + 1);
+				//이런갯수는 없었다 
     			} else {
     				count.put(store.get(tmp), 1);
     			}
@@ -77,6 +83,8 @@ public class Solution {
     		}
     	}
     	
+    	System.out.println(count.toString());
+    	
     	return result;
     	
     }
@@ -97,15 +105,15 @@ public class Solution {
     	      }
     	      List<Integer> ans = freqQuery(queries);
     	      
-    	      System.out.println(ans.stream().map(Object::toString).collect(joining("\n"))+"\n");
+//    	      System.out.println(ans.stream().map(Object::toString).collect(joining("\n"))+"\n");
     	      
-//    	      try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")))) {
-//    	        bufferedWriter.write(
-//    	                ans.stream()
-//    	                        .map(Object::toString)
-//    	                        .collect(joining("\n"))
-//    	                        + "\n");
-//    	      }
+    	      try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")))) {
+    	        bufferedWriter.write(
+    	                ans.stream()
+    	                        .map(Object::toString)
+    	                        .collect(joining("\n"))
+    	                        + "\n");
+    	      }
     	    }
     }
 }
