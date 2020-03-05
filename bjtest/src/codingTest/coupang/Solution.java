@@ -6,13 +6,6 @@ public class Solution {
 	static MyStack outStack = new MyStack(5);
 	
 	public static void main(String[] args) {
-//		myStack.push(2);
-//		System.out.println(myStack.pop());
-//		myStack.push(3);
-//		myStack.peek();
-//		myStack.push(2);
-//		myStack.push(4);
-//		myStack.peek();
 		enQueue(1);
 		enQueue(2);
 		enQueue(3);
