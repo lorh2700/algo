@@ -66,19 +66,31 @@ public class Solution {
     static long countTriplets(List<Long> arr, long r) {
     	
     	long result = 0;
+    	long now = 0;
     	
     	HashMap<Long, Long> middle = new HashMap<>();
         HashMap<Long, Long> last = new HashMap<>();        
 
         for(int i = 0 ; i < arr.size() ; i++) {
-        	result+= last.getOrDefault(arr.get(i),0L);        	
-
-        	if(middle.containsKey(arr.get(i))) {
-        		last.put( arr.get(i)*r, last.getOrDefault(arr.get(i)*r,0L)+middle.get( arr.get(i) ) );
+        	now = arr.get(i);
+        	
+        	System.out.println("\n 현재 값: "+ now);
+        	
+        	System.out.println("last 체크 " + last.getOrDefault(now, 0L));
+        	result+= last.getOrDefault(now, 0L);   
+        	System.out.println("result = "+result);
+        	
+        	if(middle.containsKey(now)) {
+        		System.out.println("*** Middle에 있음");
+        		System.out.println("[last put] key = "+now*r+", value = "+last.getOrDefault(now*r, 0L) + middle.get(now));
+        		last.put( now*r, last.getOrDefault(now*r, 0L) + middle.get(now));
+        		System.out.println("라스트 값 : " + last.toString());
         	}           
 
-        	middle.put(arr.get(i)*r, middle.getOrDefault(arr.get(i)*r,0L) + 1);         
-        }   	
+        	System.out.println("[mid put] key = "+now*r+", value = "+(middle.getOrDefault(now*r, 0L) + 1));
+        	middle.put(now*r, middle.getOrDefault(now*r, 0L) + 1);
+        	System.out.println(" 미들 값 : " + middle.toString());
+        }
     	
     	return result;
     }
@@ -86,6 +98,7 @@ public class Solution {
     
 
     public static void main(String[] args) throws IOException {
+    	System.setIn(new FileInputStream("src/input.txt"));
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 //        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
